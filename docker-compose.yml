@@ -1,0 +1,23 @@
+version: '2'
+services:
+  database:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=veryhardpassword
+      - MYSQL_DATABASE=easyapp
+      - MYSQL_USER=easyapp
+      - MYSQL_PASSWORD=veryhardpassword
+
+  php:
+    image: php:7-fpm
+    volumes:
+      - ./code:/code
+
+  web:
+    image: nginx
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d/
+    ports:
+      - 6080:80
+    depends_on:
+      - php
