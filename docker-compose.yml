@@ -3,21 +3,22 @@ services:
   database:
     image: mysql:5.7
     environment:
-      - MYSQL_ROOT_PASSWORD=veryhardpassword
-      - MYSQL_DATABASE=easyapp
-      - MYSQL_USER=easyapp
-      - MYSQL_PASSWORD=veryhardpassword
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=myapp
+      - MYSQL_USER=myapp
+      - MYSQL_PASSWORD=sqlpassword
 
   php:
-    image: php:7-fpm
+    build: ./php
     volumes:
-      - ./code:/code
+      - ./booked:/booked
 
   web:
     image: nginx
     volumes:
       - ./conf.d:/etc/nginx/conf.d/
+      - ./booked:/booked
     ports:
-      - 6080:80
+      - 80:80
     depends_on:
       - php
