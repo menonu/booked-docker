@@ -7,11 +7,14 @@ services:
       - MYSQL_DATABASE=myapp
       - MYSQL_USER=myapp
       - MYSQL_PASSWORD=sqlpassword
+    volumes:
+      - booked-database:/var/lib/mysql
 
   php:
     build: ./php
     volumes:
       - ./booked:/booked
+      - ./php/conf.d/timezone.ini:/usr/local/etc/php/conf.d/timezone.ini
 
   web:
     image: nginx
@@ -22,3 +25,6 @@ services:
       - 80:80
     depends_on:
       - php
+
+volumes:
+  booked-database:
